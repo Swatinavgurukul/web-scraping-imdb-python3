@@ -115,11 +115,11 @@ def scrape_top_list(movie_url):
         with open(file_name,'r') as json_data:
             data = json_data.read()
             data2 = json.loads(data)
-            print ("exist")
+            # print ("exist")
         return data2
 
     else:
-        print ("file not exsits")
+        # print ("file not exsits")
         movies_data_scrape = {}
         sample = requests.get(movie_url)
         soup = BeautifulSoup(sample.text, "html.parser")
@@ -148,8 +148,7 @@ def scrape_top_list(movie_url):
         for i in gener:
             movie_gener.append(i.get_text())
         # return movie_gener
-        extra_details = soup.find(
-            "div", attrs={"class": "article", "id": "titleDetails"})
+        extra_details = soup.find("div", attrs={"class": "article", "id": "titleDetails"})
         list_of_div = extra_details.find_all("div")
         for div in list_of_div:
             tag_h4 = div.find_all("h4")
@@ -208,7 +207,7 @@ def get_movie_list_details(movies_list):
         movie_10_list.append(movieDetails)
     return movie_10_list
 storage = get_movie_list_details(scrept)
-pprint(storage)
+# pprint(storage)
 
 
 
@@ -263,23 +262,76 @@ for storage_director in storage:
 movies_director_count = analyse_movies_director(movie_director)
 # print movies_director_count
 
+# task 10
 
+def analyse_language_and_directors(movie_list):
+    detailDirector = {}
+    for movie in movie_list:
+        for dirtecor in movie['director']:
+            detailDirector[dirtecor] ={}
+    for movie in movie_list:
+        for dirtecor in movie['director']:  
+            for lang in movie['language']:
+                if dirtecor in detailDirector:
+                    detailDirector[dirtecor][lang] = 0
+    for movie in movie_list:
+       for dirtecor in movie['director']:  
+            for lang in movie['language']:
+                if dirtecor in  detailDirector:
+                    detailDirector[dirtecor][lang] += 1                
+    return  detailDirector 
+# pprint(analyse_language_and_directors(storage))
 
+# Task - 11
+def analyse_movies_genre(movie_list):
+    gerne_list = []
+    for movie in movie_list:
+        gerne = movie['genre'] 
+        gerne_list .extend(gerne)
+        gerne_dic = {}
+        for data in gerne_list:
+            if data not in  gerne_dic :
+                gerne_dic [data] = 1
+            else:
+                gerne_dic [data] += 1 
+    return  gerne_dic 
+# pprint(analyse_movies_genre(storage))
 
+# Task-12
 
-
-
-
-
-
-# def  analyse_language_and_directors(movies_list):
-
-# for i in movie_list:
-#     directors = storage_director["director"]
-#     movie_director.extend(directors)
-#     languages = storage_language["language"]
-#     movie_languages.extend(languages)
-#     print directors
-#     print languages
-# language_and_directors=analyse_language_and_directors(storage)
-# print (language_and_directors)
+def  scrape_movie_cast(url):
+    Id = url.split("/")
+    file_name_id = Id[5]
+    file_name = "Movies_cast/"+file_name_id+"_cast.json"
+    filepath = Path(file_name)
+    if filepath.exists():
+        with open(file_name,'r') as json_data:
+            data = json_data.read()
+            data2 = json.loads(data)
+            print ("exist")
+        return data2
+    else:
+        print ("file not exsits")
+        page=requests.get(url)
+        soup = BeautifulSoup(page.text, "html.parser")
+        table=soup.find('table',class_="cast_list")
+        trs=table.find_all('tr')
+        cast=[]
+        for tr in trs:
+            # print (tr)
+            tds=tr.find_all('td',class_='')
+            new={}
+            for act in tds:
+                a=act.find('a')
+                name = (a.get_text())
+                imdb_id = (a['href'])[6:15]
+                new['imdb_id']=imdb_id
+                new['name']=name
+                cast.append(new)
+        with open(file_name,"w") as data:
+            data.write(json.dumps(cast))
+        return(cast)
+for i in scrept[:250]:
+    url = i['url']
+    cast_movies_url = scrape_movie_cast(url)
+# pprint(cast_movies_url)
