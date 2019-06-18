@@ -1,17 +1,1 @@
-{
-    "name": "Aparajito\u00a0",
-    "director": [
-        "Satyajit Ray"
-    ],
-    "country": "India",
-    "language": [
-        "Bengali",
-        "English"
-    ],
-    "poster_image_url": "https://www.imdb.com/title/tt0048956/mediaviewer/rm1172593920",
-    "bio": "Following his father's death, a boy leaves home to study in Calcutta, while his mother must face a life alone.",
-    "runtime": 110,
-    "genre": [
-        "Drama"
-    ]
-}
+{"name": "Aparajito\u00a0", "director": ["Satyajit Ray"], "country": "India", "language": ["Bengali", "English"], "poster_image_url": "https://www.imdb.com/title/tt0048956/mediaviewer/rm1172593920", "bio": "Following his father's death, a boy leaves home to study in Calcutta, while his mother must face a life alone.", "runtime": 110, "genre": ["Drama"], "cast": [{"imdb_id": "nm0011967", "name": " Kamala Adhikari\n"}, {"imdb_id": "nm0051837", "name": " Lalchand Banerjee\n"}, {"imdb_id": "nm0052332", "name": " Kali Bannerjee\n"}, {"imdb_id": "nm0052333", "name": " Kanu Bannerjee\n"}, {"imdb_id": "nm0052334", "name": " Karuna Bannerjee\n"}, {"imdb_id": "nm1434574", "name": " Panchanan Bhattacharya\n"}, {"imdb_id": "nm5581917", "name": " Debabrata Chakraborty\n"}, {"imdb_id": "nm0149839", "name": " Harendrakumar Chakravarti\n"}, {"imdb_id": "nm0154130", "name": " Hemanta Chatterjee\n"}, {"imdb_id": "nm0222461", "name": " Meenakshi Devi\n"}, {"imdb_id": "nm0304354", "name": " Subodh Ganguli\n"}, {"imdb_id": "nm0315871", "name": " Smaran Ghosal\n"}, {"imdb_id": "nm0315882", "name": " Charuprakash Ghosh\n"}, {"imdb_id": "nm0348496", "name": " Santi Gupta\n"}, {"imdb_id": "nm0593940", "name": " Ajay Mitra\n"}]}
