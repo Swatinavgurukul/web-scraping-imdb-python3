@@ -124,7 +124,7 @@ def scrape_top_list(movie_url):
         movies_data_scrape = {}
         sample = requests.get(movie_url)
         soup = BeautifulSoup(sample.text, "html.parser")
-
+        # Task - 13
         table=soup.find('table',class_="cast_list")
         trs=table.find_all('tr')
         cast=[]
@@ -190,8 +190,6 @@ def scrape_top_list(movie_url):
         else:
             movie_runtime = run_time_hours
         # # return movie_runtime
-        # for movie_cast in cast:
-            # print(movies_data_scrape)
 
         movies_data_scrape["name"] = movie_name[0]
         movies_data_scrape["director"] = director_name
@@ -212,48 +210,11 @@ def scrape_top_list(movie_url):
 # movie_top_list=scrape_top_list(url) 
 # print movie_top_list
 
-# Task - 12
-# def  scrape_movie_cast(url):
-#     Id = url.split("/")
-#     file_name_id = Id[5]
-#     file_name = "Movies_cast/"+file_name_id+"_cast.json"
-#     filepath = Path(file_name)
-#     if filepath.exists():
-#         with open(file_name,'r') as json_data:
-#             data = json_data.read()
-#             data2 = json.loads(data)
-#             # print ("exist")
-#         return data2
-#     else:
-#         # print ("file not exsits")
-#         page=requests.get(url)
-#         soup = BeautifulSoup(page.text, "html.parser")
-#         table=soup.find('table',class_="cast_list")
-#         trs=table.find_all('tr')
-#         cast=[]
-#         for tr in trs:
-#             # print (tr)
-#             tds=tr.find_all('td',class_='')
-#             new={}
-#             for act in tds:
-#                 a=act.find('a')
-#                 name = (a.get_text())
-#                 imdb_id = (a['href'])[6:15]
-#                 new['imdb_id']=imdb_id
-#                 new['name']=name
-#                 cast.append(new)
-#         with open(file_name,"w") as data:
-#             data.write(json.dumps(cast))
-#         return(cast)
-# for i in scrept[:250]:
-#     url = i['url']
-#     cast_movies_url = scrape_movie_cast(url)
-#     # pprint(cast_movies_url)
 
 # Task-5
 def get_movie_list_details(movies_list):
     random_sleep=random.randint(1,3)
-    print (random_sleep)
+    # print (random_sleep)
     time.sleep(random_sleep)
     movie_10_list = []
     for i in scrept[:250]:
@@ -264,8 +225,27 @@ def get_movie_list_details(movies_list):
     return movie_10_list
 
 storage = get_movie_list_details(scrept)
-pprint(storage)
+# pprint(storage)
 
+# Task - 15
+def analyse_actors(movies_list):
+    # print (movies_list)
+    analyse_actors_dic={}
+    for i in movies_list:
+        cast_no = i['cast'] 
+        for j in cast_no:
+            imdb_id_no=j['imdb_id']
+            imdb_name=j['name']
+            if imdb_id_no in analyse_actors_dic:
+                dic['num_movies'] +=1
+            else:
+                analyse_actors_dic[imdb_id_no]={}
+                dic=analyse_actors_dic[imdb_id_no]
+                dic['name']=imdb_name
+                dic['num_movies'] = 1
+    return analyse_actors_dic
+   
+pprint(analyse_actors(storage))
 
 # task-6
 
@@ -354,4 +334,67 @@ def analyse_movies_genre(movie_list):
 # pprint(analyse_movies_genre(storage))
 
 
-# Task - 13
+# Task - 12
+
+def  scrape_movie_cast(url):
+    Id = url.split("/")
+    file_name_id = Id[5]
+    file_name = "Movies_cast/"+file_name_id+"_cast.json"
+    filepath = Path(file_name)
+    if filepath.exists():
+        with open(file_name,'r') as json_data:
+            data = json_data.read()
+            data2 = json.loads(data)
+            # print ("exist")
+        return data2
+    else:
+        # print ("file not exsits")
+        page=requests.get(url)
+        soup = BeautifulSoup(page.text, "html.parser")
+        table=soup.find('table',class_="cast_list")
+        trs=table.find_all('tr')
+        cast=[]
+        for tr in trs:
+            # print (tr)
+            tds=tr.find_all('td',class_='')
+            new={}
+            for act in tds:
+                a=act.find('a')
+                name = (a.get_text())
+                imdb_id = (a['href'])[6:15]
+                new['imdb_id']=imdb_id
+                new['name']=name
+                cast.append(new)
+        with open(file_name,"w") as data:
+            data.write(json.dumps(cast))
+        return(cast)
+for i in scrept[:250]:
+    url = i['url']
+    cast_movies_url = scrape_movie_cast(url)
+    # pprint(cast_movies_url)
+
+
+# Task - Bonus Task -1
+
+def scrape_movie_details(url):
+    page=requests.get(url)
+    soup = BeautifulSoup(page.text, "html.parser")
+    # print (soup)
+    div=soup.find('div',class_="rec_page")
+    # print(div)
+    movie_class=div.findAll('div',class_='rec_item')
+    more_like={}
+    for i in movie_class:
+        movie_link=i.a["href"].split('/')
+        movie_id=movie_link[2]
+        movie_name=i.img['title']
+        # print (movie_name)
+        more_like['movie_id']=movie_id
+        more_like['movie_name']=movie_name
+        # print (more_like)
+    # print("*****************************************")
+for url in scrept:
+    url = scrept[5]['url']
+    # print (url)
+    movie_top_list=scrape_movie_details(url) 
+# print movie_top_list
