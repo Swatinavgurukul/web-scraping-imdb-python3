@@ -228,11 +228,6 @@ storage = get_movie_list_details(scrept)
 # pprint(storage)
 
 # Task -14
-
-# def analyse_co_actors(movies_list):
-#     return movies_list
-# pprint(analyse_co_actors(storage))
-# pprint(storage())
 #This function returns a dictionary with list of frequent_co actors with which lead actor of every movie has woked with
 def analyseCoActors(movies):
     moviesW = movies[0:250]
