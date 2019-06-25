@@ -227,6 +227,37 @@ def get_movie_list_details(movies_list):
 storage = get_movie_list_details(scrept)
 # pprint(storage)
 
+# Task -14
+
+# def analyse_co_actors(movies_list):
+#     return movies_list
+# pprint(analyse_co_actors(storage))
+# pprint(storage())
+#This function returns a dictionary with list of frequent_co actors with which lead actor of every movie has woked with
+def analyseCoActors(movies):
+    moviesW = movies[0:250]
+    dicById = {}
+    for i in moviesW:   #Iterating loop over all movies
+        cast = i['cast']
+        dicById[cast[0]['imdb_id']] = {'name' : cast[0]['name'],'frequent_co_actors' : []} #Creating a dictionary key for the lead actor
+
+    for j in dicById:       #Iterating loop over the newly created dictionary
+        for k in movies:    #Iterating loop over all movies
+            for l in k:
+                if(l == 'cast'):
+                    index = 0
+                    main = k[l][0]['imdb_id']
+                    if(main == j):      #Checking if lead actor key matches
+                        for cast in k[l][1:6]:    #Iterating loop over next five actors
+                            count = 1
+                            for idmatch in dicById[j]['frequent_co_actors']:
+                                if(idmatch['id']==cast['imdb_id']):
+                                    count+=idmatch['num_movies']    #Incrementing the count of the movies if actor already exist in the dictionary
+                            n = {'id' : cast['imdb_id'], 'name' : cast['name'], 'num_movies' : count}      #Creating a new dictionary for every new co-actor
+                            dicById[j]['frequent_co_actors'].append(n)     #Appending the dictionary in frequent_co_actors list of the main dictionary
+    return dicById
+pprint(analyseCoActors(storage))
+
 # Task - 15
 def analyse_actors(movies_list):
     # print (movies_list)
@@ -244,8 +275,8 @@ def analyse_actors(movies_list):
                 dic['name']=imdb_name
                 dic['num_movies'] = 1
     return analyse_actors_dic
-   
-pprint(analyse_actors(storage))
+analyse_actors_name=analyse_actors(storage) 
+# pprint(analyse_actors_name)
 
 # task-6
 
